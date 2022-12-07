@@ -48,6 +48,8 @@ function generateTitleLinks(){
   /* [DONE] remove contents of titleList */
     const titleList = document.querySelector(optTitleListSelector);
     titleList.innerHTML = '';
+  /* find all the articles and save them to variable: articles */
+    let html = '';
   /* [DONE] for each article */
     const articles = document.querySelectorAll(optArticleSelector);
     for (let article of articles){
@@ -59,11 +61,16 @@ function generateTitleLinks(){
         /* [DONE]create HTML of the link */
         const linkHTML = '<li><a href="#' + articleId + '"><span>' +articleTitle + '</span></a></li>';
         console.log(linkHTML);
-        /* insert link into titleList */
+        /* [DONE] insert link into titleList */
+        /*
         titleList.insertAdjacentHTML("beforeend", linkHTML)
-        /* insert link into html variable */
+        */
+        /* [DONE] insert link into html variable */
+        html = html + linkHTML;
+        //console.log('zawartosc html ', html);
     }
-    
+
+    titleList.innerHTML = html;
 
 }
 

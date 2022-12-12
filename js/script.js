@@ -33,14 +33,14 @@ function titleClickHandler(event){
     targetArticle.classList.add('active');
 }
 
-
 const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
   optArticleTagsActiveSelector = '.post-tags .list.active',
   optArticleAuthorSelector = '.post-author',
-  optArticleAuthorActiveSelector = '.post-author.active';
+  optArticleAuthorActiveSelector = '.post-author.active',
+  optTagsListSelector = '.tags .list';
 
 function generateTitleLinks(customSelector = ''){
 
@@ -82,6 +82,9 @@ function generateTitleLinks(customSelector = ''){
 generateTitleLinks();
 
 function generateTags(){
+  /* [NEW] create a new variable allTags with an empty array */
+  let allTags = [];
+
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
   //console.log('all articles', articles);
@@ -103,7 +106,12 @@ function generateTags(){
       /* generate HTML of the link */
       const linkHTML = '<li><a href="#tag-'+tag+'">'+tag+'</a></li>';
       /* add generated code to html variable */
-      html = html + linkHTML;      
+      html = html + linkHTML; 
+      /* [NEW] check if this link is NOT already in allTags */
+      if(allTags.indexOf(linkHTML) == -1){
+        /* [NEW] add generated code to allTags array */
+        allTags.push(linkHTML);
+      }     
     /* END LOOP: for each tag */
     }
     /* insert HTML of all the links into the tags wrapper */
@@ -111,10 +119,14 @@ function generateTags(){
     //console.log('tag list: ',tagList);  
   /* END LOOP: for every article: */
   }
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector(optTagsListSelector);
+
+  /* [NEW] add html from allTags to tagList */
+  tagList.innerHTML = allTags.join(' ');
 }
 
 generateTags();
-
 
 function tagClickHandler(event){
   /* prevent default action for this event */
@@ -163,7 +175,6 @@ function addClickListenersToTags(){
 }
 
 addClickListenersToTags();
-
 
 function generateAuthors(){
   /* find all articles */

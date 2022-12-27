@@ -128,8 +128,10 @@ function generateTags() {
   //console.log('list', tagList);
   // /* [NEW] add html from allTags to tagList */
   // //tagList.innerHTML = allTags.join(' ');
-  // console.log(allTags);
+  console.log('allTags',allTags);
   /*create variable for all links HTML code */
+  const tagsParams = calculateTagsParams(allTags);
+  // console.log('tagParams',tagsParams);
   let allTagsHTML = '';
   /* START LOOP: for each tag in allTags*/
   for (let tag in allTags) {
@@ -141,7 +143,24 @@ function generateTags() {
   tagList.innerHTML = allTagsHTML;
   //console.log('taglist',tagList);
 }
-
+function calculateTagsParams(tags){
+  
+  let tagsValues = '';
+  for (let tag in tags){
+    //console.log(tag + 'is used ' + tags[tag] + ' times')
+    tagsValues = tagsValues + tags[tag];
+  }
+  //console.log(tagsValues);
+  let min = Math.min(...tagsValues);
+  //console.log(min);
+  let max = Math.max(...tagsValues);
+  //console.log(max);
+  let result = [];
+  result.max = max;
+  result.min = min;
+  //console.log(result);
+  return result;
+}
 generateTags();
 
 function tagClickHandler(event) {

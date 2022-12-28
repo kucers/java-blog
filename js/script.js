@@ -1,5 +1,5 @@
 /*Pytania
-1. z watchem: pokazuja mi errory do poprawienia takie jak za duza ilosc tab
+czcionki tagow nie maja roznych rozmiarow
 */
 'use strict';
 
@@ -42,7 +42,8 @@ const optArticleSelector = '.post',
   optArticleAuthorActiveSelector = '.post-author.active',
   optTagsListSelector = '.tags.list',
   optCloudClassCount = 5,
-  optCloudClassPrefix = 'tag-size-' ;
+  optCloudClassPrefix = 'tag-size-',
+  optAuthorsListSelector = '.authors.list';
 
 function generateTitleLinks(customSelector = '') {
 
@@ -135,7 +136,7 @@ function generateTags() {
   //console.log('list', tagList);
   // /* [NEW] add html from allTags to tagList */
   // //tagList.innerHTML = allTags.join(' ');
-  console.log('allTags',allTags);
+  //console.log('allTags',allTags);
   /*create variable for all links HTML code */
   const tagsParams = calculateTagsParams(allTags);
   // console.log('tagParams',tagsParams);
@@ -220,6 +221,7 @@ function addClickListenersToTags() {
 addClickListenersToTags();
 
 function generateAuthors() {
+  const allAuthors = {};
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
   //console.log('all articles', articles);
@@ -227,9 +229,9 @@ function generateAuthors() {
   for (let article of articles) {
     /* find tags wrapper */
     const authorList = article.querySelector(optArticleAuthorSelector)
-    //console.log('tag List', tagList);
+    //console.log('authorList', authorList);
     /* make html variable with empty string */
-    //let html = '';
+    let html = '';
     /* get tags from data-author attribute */
     const articleAuthor = article.getAttribute('data-author');
     //console.log('data-author', articleAuthor);
@@ -242,7 +244,13 @@ function generateAuthors() {
     const linkHTML = '<a href="#' + articleAuthor + '">' + articleAuthor + '</a>';
     //console.log('html', linkHTML);
     /* add generated code to html variable */
-    //html = html + linkHTML;      
+    html = html + linkHTML;    
+    if (!allAuthors.hasOwnProperty(articleAuthor)){
+      allAuthors[articleAuthor] = 1;
+      
+    } else {
+      allAuthors[articleAuthor]++;
+    }  
     /* END LOOP: for each tag */
     //}
     /* insert HTML of all the links into the tags wrapper */
@@ -250,6 +258,25 @@ function generateAuthors() {
     //console.log('author list: ',authorList);  
     /* END LOOP: for every article: */
   }
+  const authors = document.querySelector(optAuthorsListSelector);
+  //console.log('list', tagList);
+  // /* [NEW] add html from allTags to tagList */
+  // //tagList.innerHTML = allTags.join(' ');
+  //console.log('allTags',allTags);
+  /*create variable for all links HTML code */
+  //const tagsParams = calculateTagsParams(allTags);
+  // console.log('tagParams',tagsParams);
+  let allAuthorsHTML = '';
+  /* START LOOP: for each tag in allTags*/
+  for (let author in allAuthors) {
+    allAuthorsHTML +='<li><a href="#' + author + '">'+ author + '</a></li>';
+    //const tagLinkHTML = '<li><a href="#tag-' + tag + '" class="'+ calculateTagClass (allTags[tag], tagsParams) +'">'+ tag + ' (' + allTags[tag] + ')</a></li>';
+    //console.log('tagLinkHTML', tagLinkHTML);
+  }
+  
+  //console.log(allTagsHTML);
+  authors.innerHTML = allAuthorsHTML;
+  //console.log('taglist',tagList);
 }
 
 generateAuthors();

@@ -4,6 +4,7 @@ czcionki tagow nie maja roznych rozmiarow
 const templates = {
   articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
   tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
+  authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
   tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML)
   
 }
@@ -123,7 +124,7 @@ function generateTags() {
       /* generate HTML of the link */
       //const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
       const linkHTMLData = {id: tag, title: tag};
-      const linkHTML = templates.articleLink(linkHTMLData);
+      const linkHTML = templates.tagLink(linkHTMLData);
       /* add generated code to html variable */
       html = html + linkHTML;
       /* [NEW] check if this link is NOT already in allTags */
@@ -260,7 +261,9 @@ function generateAuthors() {
     /* START LOOP: for each tag */
     //for(let author of articleTagsArray){
     /* generate HTML of the link */
-    const linkHTML = '<a href="#' + articleAuthor + '">' + articleAuthor + '</a>';
+    //const linkHTML = '<a href="#' + articleAuthor + '">' + articleAuthor + '</a>';
+    const linkHTMLData = {id: articleAuthor, title: articleAuthor};
+    const linkHTML = templates.authorLink(linkHTMLData);
     //console.log('html', linkHTML);
     /* add generated code to html variable */
     html = html + linkHTML;    
